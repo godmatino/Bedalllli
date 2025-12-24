@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Surprise</title>
+
+<style>
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+}
+
+/* پس‌زمینه با افکت fade */
+.bg{
+  min-height:100vh;
+  background:url('background.jpg') center/cover no-repeat;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  position: relative;
+  opacity: 0;          /* شروع با سیاه */
+  transition: opacity 2s ease;
+}
+
+.bg.fade{
+  opacity:0;           /* افکت خروج */
+}
+
+.bg.fade-in{
+  opacity:1;           /* روشن شدن اولیه */
+}
+
+.panel{
+  width:100%;
+  max-width:420px;
+  padding:16px;
+  background:rgba(0,0,0,0.45);
+}
+
+.msg{
+  color:#fff;
+  text-align:center;
+  font-size:14px;
+  min-height:22px;
+  margin-bottom:8px;
+  transition:opacity .8s ease;
+}
+
+/* کادر جواب وسط سمت راست */
+.answer{
+  position: absolute;      
+  top: 50%;                
+  right: 16px;             
+  transform: translateY(-50%);
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  gap:6px;
+  background: rgba(0,0,0,0.45);
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.answer label{
+  color:#fff;
+  font-size:13px;
+}
+
+.answer input{
+  width:120px;
+  padding:6px 8px;
+  border-radius:6px;
+  border:none;
+}
+</style>
+</head>
+
+<body>
+<div id="bg" class="bg">
+  <div class="panel">
+    <div id="msg" class="msg"></div>
+    <audio id="audio" src="para-pardis.mp3"></audio>
+  </div>
+
+  <!-- کادر جواب وسط سمت راست -->
+  <div class="answer">
+    <label>javab :</label>
+    <input id="ans" autocomplete="off">
+  </div>
+</div>
+
+<script>
+const msg = document.getElementById("msg");
+const audio = document.getElementById("audio");
+const ans = document.getElementById("ans");
+const bg = document.getElementById("bg");
+let played = false;
+
+// روشن شدن اولیه
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    bg.classList.add("fade-in");
+  }, 100);
+});
+
+ans.addEventListener("input", () => {
+  if (played) return;
+  const v = ans.value.trim().toLowerCase();
+  if (v === "be del" || v === "به دل") {
+    played = true;
+    msg.textContent = "goosh kon";
+    msg.style.opacity = "1";
+    audio.play();
+  }
+});
+
+audio.addEventListener("ended", () => {
+  msg.style.opacity = "0";
+  setTimeout(() => {
+    bg.classList.add("fade"); // افکت خروج
+  }, 500);
+});
+</script>
+</body>
+</html>
